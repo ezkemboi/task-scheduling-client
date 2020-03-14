@@ -1,0 +1,11 @@
+.Tasks {
+  display: flex;
+  margin: 2% 10%;
+  &__items {
+    display: flex;
+    width: 80%;
+    .more-details {
+      color: $main-button-color;
+    }
+  }
+}

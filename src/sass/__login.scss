@@ -1,0 +1,31 @@
+.Login {
+  display: flex;
+  margin: 2% 10%;
+  justify-content: center;
+  &__form {
+    display: flex;
+    align-items: center;
+    min-height: 80vh;
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      .form {
+        display: flex;
+        width: 60vw;
+        flex-direction: column;
+        .label-inputs {
+          display: flex;
+          .input {
+            width: 50%;
+            margin-left: 10px;
+          }
+        }
+        .submit {
+          width: 30%;
+          background-color: $main-button-color;
+          color: white;
+        }
+      }
+    }
+  }
+}
