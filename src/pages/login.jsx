@@ -1,4 +1,6 @@
 import React from 'react';
+// import Api from '../api';
+import axios from 'axios';
 
 class Login extends React.Component {
   constructor(props) {
@@ -8,26 +10,72 @@ class Login extends React.Component {
       password: ''
     }
   }
+  // handle change of input to set state
+  handleChange = ({ name, value }) => {
+    this.setState({
+      [name]: value
+    })
+  }
 
   handleLogin = () => {
-    // redirect to tasks page
-    window.location.assign("/tasks");
+    const { phone, password } = this.state;
+    /**
+     * do some validation before submission
+     */
+    if (!phone || !password) {
+      alert('Please provide Phone and password');
+    } else if (password.length < 6) {
+      alert("Password is short")
+    } else if (phone.length < 10 || phone.length > 13) {
+      alert("Invalid phone number")
+    }
+
+    axios.post("http://localhost:8000/personnel/login", {
+      phone: phone,
+      password: password
+    }).then(res => {
+      const { accessToken } = res.data;
+      localStorage.setItem("token", accessToken);
+      window.location.assign("/tasks");
+    }).catch(err => {
+      // alert error
+      // need to check here
+      alert(err);
+    })
   }
 
   render() {
+    const { phone, password } = this.state;
+
     return (
       <div className="Login">
         <div className="Login__form">
           <div className="inputs">
             <p>Login</p>
             <div className="form">
-              <label className="label-inputs">
+              <label
+                className="label-inputs"
+              >
                 Phone:
-                <input type="text" name="phone" className="input" />
+                <input
+                  type="text"
+                  value={phone}
+                  className="input"
+                  name="phone"
+                  onChange={e => this.handleChange(e.target)}
+                />
               </label>
-              <label className="label-inputs">
+              <label
+                className="label-inputs"
+              >
                 Password:
-                <input type="password" name="password" className="input" />
+                <input
+                  type="password"
+                  name="password"
+                  value={password}
+                  className="input"
+                  onChange={e => this.handleChange(e.target)}
+                />
               </label>
               <input
                 type="submit"
